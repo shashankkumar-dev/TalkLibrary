@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "829101026085",
+    "project_id": "talk-b70d2",
+    "storage_bucket": "talk-b70d2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:829101026085:android:5162661e95a3f462ed88cc",
+        "android_client_info": {
+          "package_name": "com.xynos.talk"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAlEj3a9RVgXHVu8m-3fOLAoqbXsA9eIT0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
