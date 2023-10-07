@@ -34,6 +34,7 @@ fun PreviewChatBubble() {
         receiver = "Receiver",
         text = "Hello, how are you?",
         timestamp = System.currentTimeMillis(),
+        chatId = ""
     )
     ChatBubble(
         message

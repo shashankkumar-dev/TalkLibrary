@@ -1,13 +1,23 @@
 package com.xynos.talk.repository.local
 
+import com.xynos.talk.cache.UserPreferences
 import com.xynos.talk.data.Chat
+import com.xynos.talk.data.ChatWithMessages
 import com.xynos.talk.data.User
 import com.xynos.talk.repository.ChatRepository
+import javax.inject.Inject
 
-class RoomChatRepository(private val chatDao: ChatDao) : ChatRepository {
+class RoomChatRepository @Inject constructor(
+    private val chatDao: ChatDao,
+    private val cache: UserPreferences
+) : ChatRepository {
 
     override fun getAllChats(): List<Chat> {
         return chatDao.getAllChats()
+    }
+
+    override fun getAllChatsWithMessage(): List<ChatWithMessages> {
+        return chatDao.getChatWithMessages()
     }
 
     override fun getChat(id: String): Chat? {
@@ -15,16 +25,14 @@ class RoomChatRepository(private val chatDao: ChatDao) : ChatRepository {
     }
 
     override fun addChat(user: User): Chat {
-        val newChat = Chat(user1 = user.id, user2 = "") // Adjust based on your actual Chat structure
+        val newChat = Chat(user1 = cache.getCurrentUserId(), user2 = user.name)
         val chatId = chatDao.insertChat(newChat)
-        // This assumes Chat has a copy method (data class). Adjust accordingly.
         return newChat.copy(id = chatId.toString())
     }
 
-    override fun updatePhoto(url: String) {
-        // This needs a specific chat ID to update. Adjust the method signature or provide more context.
-        // For example:
-        // chatDao.updatePhoto(specificChatId, url)
+    override fun updatePhoto(chat: Chat, url: String) {
+        val newChat = chat.copy(photoUrl = url)
+        chatDao.insertChat(newChat)
     }
 
     override fun deleteChat(chat: Chat) {
@@ -33,7 +41,5 @@ class RoomChatRepository(private val chatDao: ChatDao) : ChatRepository {
 
     override fun getChatsForUser(userId: String): Chat? {
         return chatDao.getChatsForUser(userId).firstOrNull()
-        // Note: This retrieves the first chat for a user. If there's a possibility of multiple chats,
-        // you might need to change the return type to List<Chat> and return the full list.
     }
 }

@@ -14,13 +14,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.xynos.talk.data.Chat
-import com.xynos.talk.data.Message
+import com.xynos.talk.data.ChatWithMessages
 import com.xynos.talk.ui.common.ImageBubble
 import com.xynos.talk.ui.common.TimeText
 
 @Composable
 fun ChatTile(
-    chat: Chat,
+    chatWithMessages: ChatWithMessages,
 ) {
     Row(
         modifier = Modifier
@@ -30,18 +30,24 @@ fun ChatTile(
         verticalAlignment = Alignment.CenterVertically
     ) {
 
-        ImageBubble(imageUrl = chat.photoUrl)
+        ImageBubble(imageUrl = chatWithMessages.chat.photoUrl)
         Spacer(modifier = Modifier.width(8.dp))
+        val lastMessage = chatWithMessages.messages.lastOrNull()
         Column(
             modifier = Modifier
                 .fillMaxWidth()
                 .weight(1f)
                 .padding(start = 8.dp)
         ) {
-            ChatTileText(chat.user2, FontWeight.Bold)
-            ChatTileText(chat.messages.last().text)
+            ChatTileText(chatWithMessages.chat.user2, FontWeight.Bold)
+            if (lastMessage != null) {
+                ChatTileText(lastMessage.text)
+            }
+
         }
-        TimeText(sentTime = chat.messages.last().timestamp)
+        if (lastMessage != null){
+            TimeText(sentTime = lastMessage.timestamp)
+        }
     }
 }
 
@@ -49,21 +55,17 @@ fun ChatTile(
 @Preview(showBackground = true)
 @Composable
 fun PreviewChatTile() {
+    val url = "https://static.vecteezy.com/system/resources/previews/007/301/307/original/flat-cartoon-character-illustration-boy-people-icon-afro-man-portrait-avatar-head-indian-user-for-web-sites-and-applications-stock-design-vector.jpg"
+
     ChatTile(
-        chat = Chat(
-            id = "1",
-            user1 = "John Doe",
-            user2 = "Jane Doe",
-            messages = listOf(
-                Message(
-                    id = "1",
-                    text = "Hey! How are you?",
-                    timestamp = System.currentTimeMillis(),
-                    sender = "sender",
-                    receiver = "receiver"
-                )
+        ChatWithMessages(
+            chat = Chat(
+                id = "1",
+                user1 = "John Doe",
+                user2 = "Jane Doe",
+                photoUrl = url,
             ),
-            photoUrl = "https://example.com/path_to_image.jpg",
+            messages = emptyList()
         )
     )
 }

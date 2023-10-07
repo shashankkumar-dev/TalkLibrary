@@ -1,5 +1,7 @@
 package com.xynos.talk.ui.screen
 
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -21,13 +23,17 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.xynos.talk.data.Chat
 import com.xynos.talk.data.Message
+import com.xynos.talk.ui.navigation.Screen
+import com.xynos.talk.ui.viewmodel.ChatListViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ChatListScreen(chats: List<Chat>) {
+fun ChatListScreen(navController: NavController, viewModel: ChatListViewModel) {
     var searchQuery by remember { mutableStateOf("") }
+    val chats = viewModel.chats.value
 
     Column(
         modifier = Modifier
@@ -47,14 +53,20 @@ fun ChatListScreen(chats: List<Chat>) {
 
         // List of Chat Tiles
         val filteredChats = chats.filter {
-            it.user1.contains(searchQuery, ignoreCase = true) ||
-                    it.user2.contains(searchQuery, ignoreCase = true)
+            it.chat.user1.contains(searchQuery, ignoreCase = true) ||
+                    it.chat.user2.contains(searchQuery, ignoreCase = true)
         }
 
         LazyColumn {
             items(filteredChats.size) { index ->
                 val chat = filteredChats[index]
-                ChatTile(chat)
+                Box(
+                    modifier = Modifier.fillMaxWidth().clickable {
+                        navController.navigate(Screen.ChatScreen.route)
+                    }
+                ) {
+                    ChatTile(chat)
+                }
                 Spacer(modifier = Modifier.height(8.dp)) // Spacing between tiles
             }
         }
@@ -71,12 +83,13 @@ fun PreviewChatScreen1() {
         receiver = "Receiver",
         text = "Hello, how are you?",
         timestamp = System.currentTimeMillis(),
+        chatId = ""
     )
     val sampleChats = listOf(
-        Chat(user1 = "John Doe", user2 = "Jane Smith", photoUrl = "https://example.com/path_to_image1.jpg", messages = listOf(message)),
-        Chat(user1 = "Alice", user2 = "Bob", photoUrl = "https://example.com/path_to_image2.jpg", messages = listOf(message)),
-        Chat(user1 = "Alice", user2 = "Bob", photoUrl = "https://example.com/path_to_image2.jpg", messages = listOf(message)),
-        Chat(user1 = "Alice", user2 = "Bob", photoUrl = "https://example.com/path_to_image2.jpg", messages = listOf(message))
+        Chat(user1 = "John Doe", user2 = "Jane Smith", photoUrl = "https://example.com/path_to_image1.jpg"),
+        Chat(user1 = "Alice", user2 = "Bob", photoUrl = "https://example.com/path_to_image2.jpg"),
+        Chat(user1 = "Alice", user2 = "Bob", photoUrl = "https://example.com/path_to_image2.jpg"),
+        Chat(user1 = "Alice", user2 = "Bob", photoUrl = "https://example.com/path_to_image2.jpg")
     )
-    ChatListScreen(sampleChats)
+    //ChatListScreen(sampleChats)
 }

@@ -9,23 +9,23 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.xynos.talk.data.Chat
+import com.xynos.talk.data.ChatWithMessages
 import com.xynos.talk.data.Message
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ChatScreen(chat: Chat) {
+fun ChatScreen(chatWithMessages: ChatWithMessages) {
     Scaffold(
         topBar = {
-            ChatTopBar(chat.photoUrl, chat.user2)
+            ChatTopBar(chatWithMessages.chat.photoUrl, chatWithMessages.chat.user2)
         },
         content = {
             Column(
                 modifier = Modifier.fillMaxSize(),
                 verticalArrangement = Arrangement.SpaceBetween
             ) {
-                MessageList(chat.messages)
+                MessageList(chatWithMessages.messages)
                 MessageBox()
             }
         }
@@ -43,13 +43,14 @@ fun PreviewChatScreen() {
         receiver = "Receiver",
         text = "Hello, how are you?",
         timestamp = System.currentTimeMillis(),
+        chatId = ""
     )
-    ChatScreen(
-        Chat(
-            user1 = "John Doe",
-            user2 = "Jane Smith",
-            photoUrl = "https://example.com/path_to_image1.jpg",
-            messages = listOf(message)
-        ),
-    )
+//    ChatScreen(
+//        Chat(
+//            user1 = "John Doe",
+//            user2 = "Jane Smith",
+//            photoUrl = "https://example.com/path_to_image1.jpg",
+//            messages = listOf(message)
+//        ),
+//    )
 }

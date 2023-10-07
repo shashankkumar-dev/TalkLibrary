@@ -3,14 +3,15 @@ package com.xynos.talk.repository.local
 import com.xynos.talk.cache.UserPreferences
 import com.xynos.talk.data.User
 import com.xynos.talk.repository.UserRepository
+import javax.inject.Inject
 
-class RoomUserRepository(private val userDao: UserDao, private val cache: UserPreferences) : UserRepository {
+class RoomUserRepository @Inject constructor(private val userDao: UserDao, private val cache: UserPreferences) : UserRepository {
 
-    override fun registerUser(name: String): String {
+    override fun registerUser(name: String): User {
         val newUser = User(name = name)
         userDao.registerUser(newUser)
         cache.setCurrentUserId(newUser.id)
-        return newUser.id
+        return newUser
     }
 
     override fun updatePhoto(url: String) {

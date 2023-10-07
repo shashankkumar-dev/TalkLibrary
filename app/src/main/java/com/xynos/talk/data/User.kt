@@ -10,6 +10,5 @@ data class User(
     val id: String = UUID.randomUUID().toString(),
     val name: String,
     var photoUrl: String? = null
-    // Add other fields as necessary
 )
 

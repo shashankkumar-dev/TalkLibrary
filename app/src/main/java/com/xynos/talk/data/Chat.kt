@@ -12,5 +12,4 @@ data class Chat(
     val user1: String,
     val user2: String,
     val photoUrl: String? = null,
-    val messages: List<Message> = emptyList()
 )

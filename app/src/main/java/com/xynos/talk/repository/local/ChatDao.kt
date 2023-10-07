@@ -30,6 +30,6 @@ interface ChatDao {
     fun getChatsForUser(userId: String): List<Chat>
 
     @Transaction
-    @Query("SELECT * FROM chats WHERE id = :chatId")
-    fun getChatWithMessages(chatId: String): ChatWithMessages
+    @Query("SELECT * FROM chats")
+    fun getChatWithMessages(): List<ChatWithMessages>
 }
