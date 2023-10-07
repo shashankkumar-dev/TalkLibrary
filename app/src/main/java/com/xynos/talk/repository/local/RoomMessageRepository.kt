@@ -2,11 +2,12 @@ package com.xynos.talk.repository.local
 
 import com.xynos.talk.data.Message
 import com.xynos.talk.repository.MessageRepository
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class RoomMessageRepository @Inject constructor(private val messageDao: MessageDao) : MessageRepository {
 
-    override fun getAllMessages(chatId: String, limit: Int, offset: Int): List<Message> {
+    override fun getAllMessages(chatId: String, limit: Int, offset: Int): Flow<List<Message>> {
         return messageDao.getAllMessagesForChat(chatId, limit, offset)
     }
 

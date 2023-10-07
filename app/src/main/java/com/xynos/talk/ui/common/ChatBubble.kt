@@ -1,4 +1,4 @@
-package com.xynos.talk.ui.screen
+package com.xynos.talk.ui.common
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -8,7 +8,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.xynos.talk.data.Message
-import com.xynos.talk.ui.common.ImageBubble
 
 @Composable
 fun ChatBubble(

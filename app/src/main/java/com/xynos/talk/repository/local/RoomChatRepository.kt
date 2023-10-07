@@ -5,6 +5,7 @@ import com.xynos.talk.data.Chat
 import com.xynos.talk.data.ChatWithMessages
 import com.xynos.talk.data.User
 import com.xynos.talk.repository.ChatRepository
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class RoomChatRepository @Inject constructor(
@@ -12,11 +13,11 @@ class RoomChatRepository @Inject constructor(
     private val cache: UserPreferences
 ) : ChatRepository {
 
-    override fun getAllChats(): List<Chat> {
+    override fun getAllChats(): Flow<List<Chat>> {
         return chatDao.getAllChats()
     }
 
-    override fun getAllChatsWithMessage(): List<ChatWithMessages> {
+    override fun getAllChatsWithMessage(): Flow<List<ChatWithMessages>> {
         return chatDao.getChatWithMessages()
     }
 

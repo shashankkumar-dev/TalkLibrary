@@ -14,6 +14,7 @@ class RoomUserRepository @Inject constructor(
         val newUser = User(name = name)
         userDao.registerUser(newUser)
         cache.setCurrentUserId(newUser.id)
+        cache.setCurrentUserName(name)
         return newUser
     }
 

@@ -16,6 +16,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -25,6 +26,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.xynos.talk.ui.common.ChatTile
 import com.xynos.talk.ui.navigation.Screen
 import com.xynos.talk.ui.viewmodel.ChatListViewModel
 
@@ -32,7 +34,7 @@ import com.xynos.talk.ui.viewmodel.ChatListViewModel
 @Composable
 fun ChatListScreen(navController: NavController, viewModel: ChatListViewModel = hiltViewModel()) {
     var searchQuery by remember { mutableStateOf("") }
-    val chats = viewModel.chats.value
+    val chats by viewModel.chats.collectAsState()
 
     Column(
         modifier = Modifier

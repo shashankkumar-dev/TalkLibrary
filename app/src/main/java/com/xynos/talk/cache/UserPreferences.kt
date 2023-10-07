@@ -1,8 +1,9 @@
 package com.xynos.talk.cache
 
 import android.content.Context
+import javax.inject.Inject
 
-class UserPreferences(context: Context) {
+class UserPreferences @Inject constructor(context: Context) {
     private val sharedPref = context.getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE)
 
     fun setCurrentUserId(userId: String) {

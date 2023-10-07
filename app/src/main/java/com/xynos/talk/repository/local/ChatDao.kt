@@ -8,11 +8,12 @@ import androidx.room.Query
 import androidx.room.Transaction
 import com.xynos.talk.data.Chat
 import com.xynos.talk.data.ChatWithMessages
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface ChatDao {
     @Query("SELECT * FROM chats")
-    fun getAllChats(): List<Chat>
+    fun getAllChats(): Flow<List<Chat>>
 
     @Query("SELECT * FROM chats WHERE id = :chatId")
     fun getChat(chatId: String): Chat?
@@ -31,5 +32,5 @@ interface ChatDao {
 
     @Transaction
     @Query("SELECT * FROM chats")
-    fun getChatWithMessages(): List<ChatWithMessages>
+    fun getChatWithMessages(): Flow<List<ChatWithMessages>>
 }

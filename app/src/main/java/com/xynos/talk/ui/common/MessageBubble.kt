@@ -1,4 +1,4 @@
-package com.xynos.talk.ui.screen
+package com.xynos.talk.ui.common
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement

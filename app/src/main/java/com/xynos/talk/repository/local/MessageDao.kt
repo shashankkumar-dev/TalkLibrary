@@ -7,11 +7,12 @@ import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 
 import com.xynos.talk.data.Message;
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface MessageDao {
-    @Query("SELECT * FROM messages WHERE chatId = :chatId LIMIT :limit OFFSET :offset")
-    fun getAllMessagesForChat(chatId: String, limit: Int, offset: Int): List<Message>
+    @Query("SELECT * FROM messages WHERE chatId = :chatId ORDER BY timestamp DESC LIMIT :limit OFFSET :offset")
+    fun getAllMessagesForChat(chatId: String, limit: Int, offset: Int): Flow<List<Message>>
 
     @Query("SELECT * FROM messages WHERE id = :messageId")
     fun getMessage(messageId: String): Message

@@ -3,12 +3,14 @@ package com.xynos.talk.ui.viewmodel
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.xynos.talk.cache.UserPreferences
 import com.xynos.talk.data.Chat
 import com.xynos.talk.data.Message
 import com.xynos.talk.repository.ChatRepository
 import com.xynos.talk.repository.MessageRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -16,17 +18,22 @@ import javax.inject.Inject
 @HiltViewModel
 class ChatViewModel @Inject constructor(
     private val chatRepository: ChatRepository,
-    private val messageRepository: MessageRepository
+    private val messageRepository: MessageRepository,
+    private val cache: UserPreferences
 ): ViewModel(){
 
     val chat = mutableStateOf<Chat?>(null)
     val messages = mutableStateOf<List<Message>>(emptyList())
-    var offset = 0
+    private var offset = 0
+    private lateinit var sender: String
+    private lateinit var receiver: String
+    private lateinit var chatId: String
 
 
     fun loadData(chatId: String) {
         loadChat(chatId)
         loadMessages(chatId)
+        sender = cache.getCurrentUserName()
     }
 
     private fun loadChat(chatId: String) {
@@ -34,22 +41,45 @@ class ChatViewModel @Inject constructor(
             chat.value = withContext(Dispatchers.IO) {
                 chatRepository.getChat(chatId)
             }
+            receiver = getOtherUser(sender)
+            this@ChatViewModel.chatId = chat.value!!.id
         }
     }
 
     private fun loadMessages(chatId: String) {
         viewModelScope.launch {
-            withContext(Dispatchers.IO) {
-                val newMessages = messageRepository.getAllMessages(chatId, LIMIT, offset)
-                offset += LIMIT
-                messages.value = messages.value.plus(newMessages)
+            messageRepository.getAllMessages(chatId, LIMIT, offset).flowOn(Dispatchers.IO).collect {
+                //offset += LIMIT
+                messages.value = it
             }
+        }
+    }
+
+    fun sendMessage(text: String) {
+        viewModelScope.launch {
+            val message = Message(
+                text = text,
+                sender = sender,
+                receiver = receiver,
+                chatId = chatId
+            )
+            withContext(Dispatchers.IO) {
+                messageRepository.addMessage(message)
+            }
+        }
+    }
+
+    private fun getOtherUser(name: String): String {
+        return if (chat.value?.user1 == name) {
+            chat.value?.user2!!
+        } else {
+            chat.value?.user1!!
         }
     }
 
     companion object {
         private const val TAG = "ChatViewModel"
-        private const val LIMIT = 15
+        private const val LIMIT = 50
     }
 
 }
