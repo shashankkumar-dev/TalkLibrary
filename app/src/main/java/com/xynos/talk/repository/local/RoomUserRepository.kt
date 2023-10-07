@@ -5,7 +5,10 @@ import com.xynos.talk.data.User
 import com.xynos.talk.repository.UserRepository
 import javax.inject.Inject
 
-class RoomUserRepository @Inject constructor(private val userDao: UserDao, private val cache: UserPreferences) : UserRepository {
+class RoomUserRepository @Inject constructor(
+    private val userDao: UserDao,
+    private val cache: UserPreferences
+) : UserRepository {
 
     override fun registerUser(name: String): User {
         val newUser = User(name = name)

@@ -16,9 +16,14 @@ import com.xynos.talk.repository.local.RoomUserRepository
 import com.xynos.talk.repository.local.UserDao
 import dagger.Module
 import dagger.Provides
+
+import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
+import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
 @Module
+@InstallIn(SingletonComponent::class)
 object DatabaseModule {
 
     @Provides
@@ -56,11 +61,7 @@ object DatabaseModule {
     }
 
     @Provides
-    @Singleton
-    fun provideContext(application: Application): Context = application
-
-    @Provides
-    fun provideUserPreferences(application: Context): UserPreferences {
+    fun provideUserPreferences(@ApplicationContext application: Context): UserPreferences {
         return UserPreferences(application)
     }
 

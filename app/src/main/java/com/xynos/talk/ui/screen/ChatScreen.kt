@@ -7,25 +7,44 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.xynos.talk.data.ChatWithMessages
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavHostController
+import com.xynos.talk.data.Chat
 import com.xynos.talk.data.Message
+import com.xynos.talk.ui.viewmodel.ChatViewModel
+
+@Composable
+fun ChatScreen(navController: NavHostController, viewModel: ChatViewModel = hiltViewModel()) {
+    val chatId = navController.currentBackStackEntry?.arguments?.getString("chatId")
+    LaunchedEffect(chatId) {
+        viewModel.loadData(chatId!!)
+    }
+
+    val messages = viewModel.messages.value
+    val chat = viewModel.chat.value ?: return
+    ChatScreenScaffold(chat, messages)
+}
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ChatScreen(chatWithMessages: ChatWithMessages) {
+@OptIn(ExperimentalMaterial3Api::class)
+private fun ChatScreenScaffold(
+    chat: Chat,
+    messages: List<Message>
+) {
     Scaffold(
         topBar = {
-            ChatTopBar(chatWithMessages.chat.photoUrl, chatWithMessages.chat.user2)
+            ChatTopBar(chat.photoUrl, chat.user2)
         },
         content = {
             Column(
                 modifier = Modifier.fillMaxSize(),
                 verticalArrangement = Arrangement.SpaceBetween
             ) {
-                MessageList(chatWithMessages.messages)
+                MessageList(messages)
                 MessageBox()
             }
         }
@@ -36,21 +55,4 @@ fun ChatScreen(chatWithMessages: ChatWithMessages) {
 @Preview(showBackground = true)
 @Composable
 fun PreviewChatScreen() {
-
-    val message = Message(
-        id = "1",
-        sender = "Sender",
-        receiver = "Receiver",
-        text = "Hello, how are you?",
-        timestamp = System.currentTimeMillis(),
-        chatId = ""
-    )
-//    ChatScreen(
-//        Chat(
-//            user1 = "John Doe",
-//            user2 = "Jane Smith",
-//            photoUrl = "https://example.com/path_to_image1.jpg",
-//            messages = listOf(message)
-//        ),
-//    )
 }

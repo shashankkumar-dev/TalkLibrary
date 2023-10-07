@@ -6,11 +6,13 @@ import androidx.lifecycle.viewModelScope
 import com.xynos.talk.data.ChatWithMessages
 import com.xynos.talk.repository.ChatRepository
 import com.xynos.talk.repository.UserRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
+@HiltViewModel
 class ChatListViewModel @Inject constructor(
     private val chatRepository: ChatRepository,
     private val userRepository: UserRepository
