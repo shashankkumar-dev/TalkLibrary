@@ -1,6 +1,5 @@
 package com.xynos.talk.ui.common
 
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -13,7 +12,6 @@ import com.xynos.talk.data.Message
 fun MessageList(messages: List<Message>) {
     LazyColumn(
         modifier = Modifier.padding(top = 56.dp),
-        contentPadding = PaddingValues(bottom = 8.dp)
     ) {
         itemsIndexed(messages) { _, message ->
             ChatBubble(

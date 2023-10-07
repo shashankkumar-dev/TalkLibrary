@@ -11,7 +11,7 @@ import java.util.Locale
 
 @Composable
 fun TimeText(sentTime: Long) {
-    Text(text = formatTimeToDisplay(sentTime), style = TextStyle(fontSize = 12.sp, color = Color.DarkGray))
+    Text(text = formatTimeToDisplay(sentTime), style = TextStyle(fontSize = 12.sp, color = Color.Gray))
 }
 
 fun formatTimeToDisplay(millis: Long): String {

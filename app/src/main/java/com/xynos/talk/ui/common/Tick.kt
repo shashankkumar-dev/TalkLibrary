@@ -1,5 +1,6 @@
 package com.xynos.talk.ui.common
 
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
@@ -14,7 +15,7 @@ fun Tick(isRead: Boolean) {
     Icon(
         imageVector = Icons.Default.Check,
         contentDescription = null,
-        tint = if (isRead) Color.Blue else Color.DarkGray,
-        modifier = Modifier.size(16.dp)
+        tint = if (isRead) Color.Blue else Color.Gray,
+        modifier = Modifier.size(16.dp).padding(horizontal = 4.dp)
     )
 }

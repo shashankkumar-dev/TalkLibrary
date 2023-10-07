@@ -50,7 +50,7 @@ class ChatViewModel @Inject constructor(
         viewModelScope.launch {
             messageRepository.getAllMessages(chatId, LIMIT, offset).flowOn(Dispatchers.IO).collect {
                 //offset += LIMIT
-                messages.value = it
+                messages.value = it.reversed()
             }
         }
     }
