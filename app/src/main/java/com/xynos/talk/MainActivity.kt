@@ -10,7 +10,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.xynos.talk.ui.navigation.NavGraph
+import com.xynos.talk.navigation.NavGraph
 import com.xynos.talk.ui.theme.TalkTheme
 import dagger.hilt.android.AndroidEntryPoint
 
