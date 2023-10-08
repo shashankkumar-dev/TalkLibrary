@@ -6,6 +6,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.xynos.talk.ui.screen.ChatListScreen
 import com.xynos.talk.ui.screen.ChatScreen
+import com.xynos.talk.ui.screen.UserSearchScreen
 
 @Composable
 fun NavGraph() {
@@ -17,6 +18,9 @@ fun NavGraph() {
         }
         composable(Screen.ChatScreen.route) {
             ChatScreen(navController)
+        }
+        composable(Screen.UserSearchScreen.route) {
+            UserSearchScreen(navController)
         }
     }
 }

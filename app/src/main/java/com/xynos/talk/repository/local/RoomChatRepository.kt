@@ -25,10 +25,10 @@ class RoomChatRepository @Inject constructor(
         return chatDao.getChat(id)
     }
 
-    override fun addChat(user: User): Chat {
-        val newChat = Chat(user1 = cache.getCurrentUserId(), user2 = user.name)
-        val chatId = chatDao.insertChat(newChat)
-        return newChat.copy(id = chatId.toString())
+    override fun addChat(id: String, user: User): Chat {
+        val newChat = Chat(id = id, user1 = cache.getCurrentUserId(), user2 = user.name)
+        chatDao.insertChat(newChat)
+        return newChat
     }
 
     override fun updatePhoto(chat: Chat, url: String) {

@@ -26,7 +26,7 @@ class ChatListViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
-                registerUser()
+                //registerUser()
             }
             chatRepository.getAllChatsWithMessage().flowOn(Dispatchers.IO).collect {
                 _chats.value = it
@@ -41,7 +41,7 @@ class ChatListViewModel @Inject constructor(
         userRepository.updatePhoto(url)
         userRepository.registerUser("User 3")
         userRepository.updatePhoto(url)
-        chatRepository.addChat(user2)
+        //chatRepository.addChat(user2)
     }
 
 }
