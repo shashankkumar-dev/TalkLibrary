@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.xynos.talk.Utils
 import com.xynos.talk.cache.UserPreferences
 import com.xynos.talk.data.User
+import com.xynos.talk.domain.SyncUseCase
 import com.xynos.talk.repository.ChatRepository
 import com.xynos.talk.repository.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -19,6 +20,7 @@ import javax.inject.Inject
 class UserSearchViewModel @Inject constructor(
     private val userRepository: UserRepository,
     private val chatRepository: ChatRepository,
+    private val syncUseCase: SyncUseCase,
     private val cache: UserPreferences
 ) : ViewModel() {
 
@@ -34,6 +36,7 @@ class UserSearchViewModel @Inject constructor(
     private fun fetchUsers() {
         viewModelScope.launch {
             users.value = withContext(Dispatchers.IO) {
+                syncUseCase.syncUsers()
                 userRepository.getAllFriends()
             }
         }
@@ -51,7 +54,7 @@ class UserSearchViewModel @Inject constructor(
                 val chatId = Utils.getUniqueId(userId, user.id)
                 val chat = chatRepository.getChat(chatId)
                 if (chat == null) {
-                    chatRepository.addChat(chatId, user)
+                    syncUseCase.addChat(chatId, user)
                 }
                 chatId
             }

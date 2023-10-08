@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.xynos.talk.cache.UserPreferences
 import com.xynos.talk.data.Chat
 import com.xynos.talk.data.Message
+import com.xynos.talk.domain.SyncUseCase
 import com.xynos.talk.repository.ChatRepository
 import com.xynos.talk.repository.MessageRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -20,7 +21,8 @@ import javax.inject.Inject
 class ChatViewModel @Inject constructor(
     private val chatRepository: ChatRepository,
     private val messageRepository: MessageRepository,
-    private val cache: UserPreferences
+    private val cache: UserPreferences,
+    private val syncUseCase: SyncUseCase
 ) : ViewModel() {
 
     val chat = mutableStateOf<Chat?>(null)
@@ -52,6 +54,12 @@ class ChatViewModel @Inject constructor(
                 messages.value = it.reversed()
             }
         }
+
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                syncUseCase.syncMessages(chatId)
+            }
+        }
     }
 
     fun sendMessage(text: String) {
@@ -64,7 +72,7 @@ class ChatViewModel @Inject constructor(
                 chatId = chatId
             )
             withContext(Dispatchers.IO) {
-                messageRepository.addMessage(message)
+                syncUseCase.sendMessage(message)
             }
         }
     }

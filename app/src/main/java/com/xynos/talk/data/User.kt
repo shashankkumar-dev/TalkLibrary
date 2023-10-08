@@ -8,7 +8,7 @@ import java.util.UUID
 data class User(
     @PrimaryKey
     val id: String = UUID.randomUUID().toString(),
-    val name: String,
+    val name: String = "",
     var photoUrl: String? = null
 )
 

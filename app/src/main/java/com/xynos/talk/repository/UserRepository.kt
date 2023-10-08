@@ -3,10 +3,10 @@ package com.xynos.talk.repository
 import com.xynos.talk.data.User
 
 interface UserRepository {
-    fun registerUser(name: String): User
-    fun updatePhoto(url: String)
-    fun getUser(id: String): User
-    fun getProfile(): User
-    fun getAllFriends(): List<User>
-    fun removeFriend(user: User)
+    suspend fun registerUser(name: String): User
+    suspend fun updatePhoto(url: String)
+    suspend fun getUser(id: String): User
+    suspend fun getProfile(): User
+    suspend fun getAllFriends(): List<User>
+    suspend fun removeFriend(user: User)
 }

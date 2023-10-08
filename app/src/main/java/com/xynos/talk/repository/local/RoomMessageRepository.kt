@@ -12,15 +12,15 @@ class RoomMessageRepository @Inject constructor(private val messageDao: MessageD
         return messageDao.getAllMessagesForChat(chatId, limit, offset)
     }
 
-    override fun getMessage(id: String): Message {
+    override suspend fun getMessage(id: String): Message {
         return messageDao.getMessage(id)
     }
 
-    override fun addMessage(message: Message) {
+    override suspend fun addMessage(message: Message) {
         messageDao.insertMessage(message)
     }
 
-    override fun deleteMessage(message: Message) {
+    override suspend fun deleteMessage(message: Message) {
         messageDao.deleteMessage(message)
     }
 }

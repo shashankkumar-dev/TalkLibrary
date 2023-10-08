@@ -5,7 +5,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface MessageRepository {
     fun getAllMessages(chatId: String, limit: Int = 15, offset: Int = 0): Flow<List<Message>>
-    fun getMessage(id: String): Message
-    fun addMessage(message: Message)
-    fun deleteMessage(message: Message)
+    suspend fun getMessage(id: String): Message
+    suspend fun addMessage(message: Message)
+    suspend fun deleteMessage(message: Message)
 }

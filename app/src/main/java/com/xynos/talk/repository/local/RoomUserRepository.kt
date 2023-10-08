@@ -10,36 +10,37 @@ class RoomUserRepository @Inject constructor(
     private val cache: UserPreferences
 ) : UserRepository {
 
-    override fun registerUser(name: String): User {
+    override suspend fun registerUser(name: String): User {
         val newUser = User(name = name)
         userDao.registerUser(newUser)
-        cache.setCurrentUserId(newUser.id)
-        cache.setCurrentUserName(name)
         return newUser
     }
 
-    override fun updatePhoto(url: String) {
+    override suspend fun updatePhoto(url: String) {
         val user = getProfile().apply {
             photoUrl = url
         }
         userDao.registerUser(user)
     }
 
-    override fun getUser(id: String): User {
+    override suspend fun getUser(id: String): User {
         return userDao.getUser(id)
     }
 
-    override fun getProfile(): User {
+    override suspend fun getProfile(): User {
         return getUser(cache.getCurrentUserId())
     }
 
-    override fun getAllFriends(): List<User> {
+    override suspend fun getAllFriends(): List<User> {
         return userDao.getAllFriends()
     }
 
-    override fun removeFriend(user: User) {
+    override suspend fun removeFriend(user: User) {
         userDao.removeFriend(user)
     }
 
+    suspend fun addFriend(user: User) {
+        userDao.registerUser(user)
+    }
 
 }

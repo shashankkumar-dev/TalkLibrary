@@ -3,8 +3,8 @@ package com.xynos.talk.ui.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.xynos.talk.data.ChatWithMessages
+import com.xynos.talk.domain.SyncUseCase
 import com.xynos.talk.repository.ChatRepository
-import com.xynos.talk.repository.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -17,7 +17,7 @@ import javax.inject.Inject
 @HiltViewModel
 class ChatListViewModel @Inject constructor(
     private val chatRepository: ChatRepository,
-    private val userRepository: UserRepository
+    private val syncUseCase: SyncUseCase
 ) : ViewModel() {
 
     private val _chats = MutableStateFlow<List<ChatWithMessages>>(emptyList())
@@ -26,22 +26,19 @@ class ChatListViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
-                //registerUser()
+                syncUseCase.registerUser("Shashankk")
             }
             chatRepository.getAllChatsWithMessage().flowOn(Dispatchers.IO).collect {
-                _chats.value = it
+                val list = it.filter { chatWithMessages -> chatWithMessages.messages.isNotEmpty() }
+                _chats.value = list
+            }
+            launch {
+                withContext(Dispatchers.IO) {
+                    syncUseCase.syncChats()
+                }
             }
         }
     }
 
-    private fun registerUser() {
-        val url =
-            "https://static.vecteezy.com/system/resources/previews/007/301/307/original/flat-cartoon-character-illustration-boy-people-icon-afro-man-portrait-avatar-head-indian-user-for-web-sites-and-applications-stock-design-vector.jpg"
-        val user2 = userRepository.registerUser("User 2")
-        userRepository.updatePhoto(url)
-        userRepository.registerUser("User 3")
-        userRepository.updatePhoto(url)
-        //chatRepository.addChat(user2)
-    }
 
 }

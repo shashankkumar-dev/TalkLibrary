@@ -8,10 +8,10 @@ import java.util.UUID
 data class Message(
     @PrimaryKey
     val id: String = UUID.randomUUID().toString(),
-    val text: String,
-    val sender: String,
-    val receiver: String,
+    val text: String = "",
+    val sender: String = "",
+    val receiver: String = "",
     val stage: Int = 0,
     val timestamp: Long = System.currentTimeMillis(),
-    val chatId: String
+    val chatId: String = ""
 )

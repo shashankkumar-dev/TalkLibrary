@@ -21,26 +21,30 @@ class RoomChatRepository @Inject constructor(
         return chatDao.getChatWithMessages()
     }
 
-    override fun getChat(id: String): Chat? {
+    override suspend fun getChat(id: String): Chat? {
         return chatDao.getChat(id)
     }
 
-    override fun addChat(id: String, user: User): Chat {
+    override suspend fun addChat(id: String, user: User): Chat {
         val newChat = Chat(id = id, user1 = cache.getCurrentUserId(), user2 = user.name)
         chatDao.insertChat(newChat)
         return newChat
     }
 
-    override fun updatePhoto(chat: Chat, url: String) {
+    override suspend fun updatePhoto(chat: Chat, url: String) {
         val newChat = chat.copy(photoUrl = url)
         chatDao.insertChat(newChat)
     }
 
-    override fun deleteChat(chat: Chat) {
+    override suspend fun deleteChat(chat: Chat) {
         chatDao.deleteChat(chat)
     }
 
-    override fun getChatsForUser(userId: String): Chat? {
+    override suspend fun getChatsForUser(userId: String): Chat? {
         return chatDao.getChatsForUser(userId).firstOrNull()
+    }
+
+    suspend fun addChat(chat: Chat) {
+        chatDao.insertChat(chat)
     }
 }

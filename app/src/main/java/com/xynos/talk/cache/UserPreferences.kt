@@ -1,6 +1,7 @@
 package com.xynos.talk.cache
 
 import android.content.Context
+import java.util.UUID
 import javax.inject.Inject
 
 class UserPreferences @Inject constructor(context: Context) {
@@ -14,7 +15,7 @@ class UserPreferences @Inject constructor(context: Context) {
     }
 
     fun getCurrentUserId(): String {
-        return sharedPref.getString(KEY_CURRENT_USER_ID, "") ?: ""
+        return sharedPref.getString(KEY_CURRENT_USER_ID, UUID.randomUUID().toString()) ?: ""
     }
 
     fun setCurrentUserName(name: String) {
