@@ -22,9 +22,9 @@ import com.xynos.talk.ui.viewmodel.ChatViewModel
 
 @Composable
 fun ChatScreen(navController: NavHostController, viewModel: ChatViewModel = hiltViewModel()) {
-    val chatId = navController.currentBackStackEntry?.arguments?.getString("chatId")
-    LaunchedEffect(chatId) {
-        viewModel.loadData(chatId!!)
+    val chatId = navController.currentBackStackEntry?.arguments?.getString("chatId") ?: return
+    LaunchedEffect(Unit) {
+        viewModel.loadData(chatId)
     }
 
     val messages = viewModel.messages.value
