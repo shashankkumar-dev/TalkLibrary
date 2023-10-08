@@ -86,6 +86,6 @@ dependencies {
     debugImplementation 'androidx.compose.ui:ui-tooling'
     debugImplementation 'androidx.compose.ui:ui-test-manifest'
 
-    implementation project(':talk')
+    implementation 'com.github.vylhart:TalkLibrary:1.0'
 
 }
