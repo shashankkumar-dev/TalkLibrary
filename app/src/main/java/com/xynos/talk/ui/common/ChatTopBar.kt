@@ -2,6 +2,7 @@ package com.xynos.talk.ui.common
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -12,8 +13,9 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.xynos.talk.ui.theme.VeryLightBlue
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
@@ -23,9 +25,14 @@ fun ChatTopBar(imageUrl: String?, chatTitle: String) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
+                modifier = Modifier.padding(horizontal = 16.dp)
             ) {
                 ImageBubble(imageUrl = imageUrl)
-                Text(chatTitle)
+                Text(
+                    text = chatTitle,
+                    color = Color.DarkGray,
+                    modifier = Modifier.padding(horizontal = 8.dp)
+                )
             }
         },
         actions = {
@@ -35,7 +42,7 @@ fun ChatTopBar(imageUrl: String?, chatTitle: String) {
             )
         },
         colors = TopAppBarDefaults.smallTopAppBarColors(
-            containerColor = VeryLightBlue,
+            containerColor = MaterialTheme.colorScheme.background,
             titleContentColor = MaterialTheme.colorScheme.onSurface,
         )
     )

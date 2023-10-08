@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
@@ -53,7 +54,9 @@ private fun ChatScreenScaffold(
                 .padding(horizontal = 12.dp),
             verticalArrangement = Arrangement.SpaceBetween
         ) {
-            MessageList(messages, sender)
+            MessageList(messages, sender,
+                modifier = Modifier.weight(1f).fillMaxWidth().padding(horizontal = 12.dp)
+            )
             MessageBox(onClick)
         }
     })

@@ -1,9 +1,11 @@
 package com.xynos.talk.ui.common
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Send
@@ -11,6 +13,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
@@ -46,15 +49,15 @@ fun MessageBox(onClick: (String) -> Unit) {
         TextField(
             value = message,
             onValueChange = { newValue -> message = newValue },
-            modifier = Modifier.weight(1f),
+            modifier = Modifier.weight(5f),
             placeholder = { Text(text = "Enter a message") },
-            shape = RoundedCornerShape(12.dp),  // Rounded corners with 12.dp radius
+            shape = RoundedCornerShape(12.dp),
             colors = TextFieldDefaults.textFieldColors(
-                containerColor = VeryLightBlue, // Replace with your desired background color
-                focusedIndicatorColor = Color.Transparent,  // Hide the bottom border when focused
-                unfocusedIndicatorColor = Color.Transparent,  // Hide the bottom border when unfocused
-                cursorColor = Blue,  // Replace with your desired cursor color
-                textColor = Blue // Replace with your desired text color
+                containerColor = VeryLightBlue,
+                focusedIndicatorColor = Color.Transparent,
+                unfocusedIndicatorColor = Color.Transparent,
+                cursorColor = Blue,
+                textColor = Blue
             )
         )
         Button(
@@ -65,12 +68,16 @@ fun MessageBox(onClick: (String) -> Unit) {
                     message = ""
                 }
             },
-            colors = ButtonDefaults.buttonColors(VeryLightBlue),
+            colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.background),
+            modifier = Modifier.weight(1f),
+            contentPadding = PaddingValues(0.dp) // Remove or reduce padding inside the button to allow for a bigger icon
+
         ) {
             Icon(
                 imageVector = Icons.Default.Send,
                 contentDescription = "Send Message",
-                tint = Color.DarkGray
+                tint = Blue,
+                modifier = Modifier.size(30.dp) // Adjust to your desired icon size
             )
         }
     }
