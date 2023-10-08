@@ -26,7 +26,7 @@ class ChatListViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
-                syncUseCase.registerUser("Shashankk")
+                syncUseCase.registerUser("Shashankk  ")
             }
             chatRepository.getAllChatsWithMessage().flowOn(Dispatchers.IO).collect {
                 val list = it.filter { chatWithMessages -> chatWithMessages.messages.isNotEmpty() }

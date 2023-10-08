@@ -5,8 +5,9 @@ import com.google.firebase.ktx.Firebase
 import com.xynos.talk.data.Message
 import com.xynos.talk.repository.MessageRepository
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
@@ -14,17 +15,24 @@ import javax.inject.Inject
 class FirebaseMessageRepository @Inject constructor(): MessageRepository {
 
     private val db = Firebase.firestore
-    private val messageCollection = db.collection("messages")
+    private val messageCollection = db.collection("chats")
+    override fun getAllMessages(chatId: String, limit: Int, offset: Int): Flow<List<Message>> = callbackFlow {
+        val listenerRegistration = messageCollection.document(chatId).collection("messages")
+            .addSnapshotListener { value, error ->
+                if (error != null) {
+                    close(error)
+                    return@addSnapshotListener
+                }
 
-    override fun getAllMessages(chatId: String, limit: Int, offset: Int): Flow<List<Message>> = flow {
-        val querySnapshot = messageCollection
-            .whereEqualTo("chatId", chatId)
-            .get()
-            .await()
+                val messages = value?.toObjects(Message::class.java)
+                if (messages != null) {
+                    this.trySend(messages).isSuccess
+                }
+            }
 
-        val messages = querySnapshot.toObjects(Message::class.java)
-        emit(messages)
+        awaitClose { listenerRegistration.remove() }
     }.flowOn(Dispatchers.IO)
+
 
     override suspend fun getMessage(id: String): Message {
         val document = messageCollection.document(id).get().await()
@@ -32,10 +40,12 @@ class FirebaseMessageRepository @Inject constructor(): MessageRepository {
     }
 
     override suspend fun addMessage(message: Message) {
-        messageCollection.add(message).await()
+        messageCollection.document(message.chatId).collection("messages")
+            .add(message).await()
     }
 
     override suspend fun deleteMessage(message: Message) {
-        messageCollection.document(message.id).delete().await()
+        messageCollection.document(message.chatId).collection("messages")
+            .document(message.id).delete().await()
     }
 }
