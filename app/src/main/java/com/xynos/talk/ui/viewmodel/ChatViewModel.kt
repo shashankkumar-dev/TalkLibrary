@@ -1,5 +1,6 @@
 package com.xynos.talk.ui.viewmodel
 
+import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -20,20 +21,18 @@ class ChatViewModel @Inject constructor(
     private val chatRepository: ChatRepository,
     private val messageRepository: MessageRepository,
     private val cache: UserPreferences
-): ViewModel(){
+) : ViewModel() {
 
     val chat = mutableStateOf<Chat?>(null)
     val messages = mutableStateOf<List<Message>>(emptyList())
     private var offset = 0
-    private lateinit var sender: String
+    var sender: String = cache.getCurrentUserName()
     private lateinit var receiver: String
     private lateinit var chatId: String
-
 
     fun loadData(chatId: String) {
         loadChat(chatId)
         loadMessages(chatId)
-        sender = cache.getCurrentUserName()
     }
 
     private fun loadChat(chatId: String) {
@@ -56,6 +55,7 @@ class ChatViewModel @Inject constructor(
     }
 
     fun sendMessage(text: String) {
+        Log.i(TAG, "sendMessage: $sender")
         viewModelScope.launch {
             val message = Message(
                 text = text,

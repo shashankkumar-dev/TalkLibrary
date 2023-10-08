@@ -9,13 +9,15 @@ import androidx.compose.ui.unit.dp
 import com.xynos.talk.data.Message
 
 @Composable
-fun MessageList(messages: List<Message>) {
+fun MessageList(messages: List<Message>, sender: String) {
     LazyColumn(
-        modifier = Modifier.padding(top = 56.dp),
+        modifier = Modifier.padding(top = 70.dp),
     ) {
         itemsIndexed(messages) { _, message ->
+            val isMe = sender == message.sender
             ChatBubble(
-                message = message
+                message = message,
+                isMe
             )
         }
     }

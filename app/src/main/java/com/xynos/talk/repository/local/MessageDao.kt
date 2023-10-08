@@ -18,7 +18,7 @@ interface MessageDao {
     fun getMessage(messageId: String): Message
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertMessage(message:Message): Long
+    fun insertMessage(message: Message): Long
 
     @Delete
     fun deleteMessage(message: Message): Int

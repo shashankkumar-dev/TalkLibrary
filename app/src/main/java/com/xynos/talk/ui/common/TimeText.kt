@@ -11,7 +11,10 @@ import java.util.Locale
 
 @Composable
 fun TimeText(sentTime: Long) {
-    Text(text = formatTimeToDisplay(sentTime), style = TextStyle(fontSize = 12.sp, color = Color.Gray))
+    Text(
+        text = formatTimeToDisplay(sentTime),
+        style = TextStyle(fontSize = 9.sp, color = Color.Gray)
+    )
 }
 
 fun formatTimeToDisplay(millis: Long): String {
@@ -27,9 +30,11 @@ fun formatTimeToDisplay(millis: Long): String {
         currentDayOfYear == messageDayOfYear && currentYear == messageYear -> {
             SimpleDateFormat("h:mm a", Locale.getDefault()).format(millis)
         }
+
         currentDayOfYear - messageDayOfYear == 1 && currentYear == messageYear -> {
             "yesterday"
         }
+
         else -> {
             SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(millis)
         }

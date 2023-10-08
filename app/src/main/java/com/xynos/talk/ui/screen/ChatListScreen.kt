@@ -42,7 +42,8 @@ fun ChatListScreen(navController: NavController, viewModel: ChatListViewModel = 
             .padding(16.dp)
     ) {
         // Search Bar
-        OutlinedTextField(value = searchQuery,
+        OutlinedTextField(
+            value = searchQuery,
             onValueChange = { searchQuery = it },
             label = { Text("Search") },
             leadingIcon = { Icon(Icons.Default.Search, contentDescription = null) },
@@ -78,4 +79,5 @@ fun ChatListScreen(navController: NavController, viewModel: ChatListViewModel = 
 
 @Preview(showBackground = true)
 @Composable
-fun PreviewChatScreen1() {}
+fun PreviewChatScreen1() {
+}

@@ -43,7 +43,7 @@ fun ChatTile(
             }
 
         }
-        if (lastMessage != null){
+        if (lastMessage != null) {
             TimeText(sentTime = lastMessage.timestamp)
         }
     }
@@ -53,7 +53,8 @@ fun ChatTile(
 @Preview(showBackground = true)
 @Composable
 fun PreviewChatTile() {
-    val url = "https://static.vecteezy.com/system/resources/previews/007/301/307/original/flat-cartoon-character-illustration-boy-people-icon-afro-man-portrait-avatar-head-indian-user-for-web-sites-and-applications-stock-design-vector.jpg"
+    val url =
+        "https://static.vecteezy.com/system/resources/previews/007/301/307/original/flat-cartoon-character-illustration-boy-people-icon-afro-man-portrait-avatar-head-indian-user-for-web-sites-and-applications-stock-design-vector.jpg"
 
     ChatTile(
         ChatWithMessages(

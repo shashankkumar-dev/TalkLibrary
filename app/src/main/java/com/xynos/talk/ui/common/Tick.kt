@@ -16,6 +16,8 @@ fun Tick(isRead: Boolean) {
         imageVector = Icons.Default.Check,
         contentDescription = null,
         tint = if (isRead) Color.Blue else Color.Gray,
-        modifier = Modifier.size(16.dp).padding(horizontal = 4.dp)
+        modifier = Modifier
+            .size(16.dp)
+            .padding(horizontal = 4.dp)
     )
 }

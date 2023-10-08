@@ -15,13 +15,13 @@ import com.xynos.talk.ui.theme.LightBlue
 
 
 @Composable
-fun MessageText(message: String, isMe: Boolean= false) {
+fun MessageText(message: String, isMe: Boolean = false) {
     Text(
         modifier = Modifier
             .background(if (isMe) Blue else LightBlue, RoundedCornerShape(8.dp))
             .padding(8.dp),
         text = message,
         style = TextStyle(color = if (isMe) Color.White else Color.DarkGray),
-        fontSize = 16.sp
+        fontSize = 18.sp
     )
 }

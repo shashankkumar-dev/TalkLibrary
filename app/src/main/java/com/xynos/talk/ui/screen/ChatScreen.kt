@@ -4,11 +4,13 @@ import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.xynos.talk.data.Chat
@@ -30,7 +32,7 @@ fun ChatScreen(navController: NavHostController, viewModel: ChatViewModel = hilt
     val onClick = { message: String ->
         viewModel.sendMessage(message)
     }
-    ChatScreenScaffold(chat, messages, onClick)
+    ChatScreenScaffold(chat, messages, onClick, viewModel.sender)
 }
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -39,15 +41,19 @@ fun ChatScreen(navController: NavHostController, viewModel: ChatViewModel = hilt
 private fun ChatScreenScaffold(
     chat: Chat,
     messages: List<Message>,
-    onClick: (String) -> Unit
+    onClick: (String) -> Unit,
+    sender: String
 ) {
     Scaffold(topBar = {
         ChatTopBar(chat.photoUrl, chat.user2)
     }, content = {
         Column(
-            modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.SpaceBetween
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(horizontal = 12.dp),
+            verticalArrangement = Arrangement.SpaceBetween
         ) {
-            MessageList(messages)
+            MessageList(messages, sender)
             MessageBox(onClick)
         }
     })
