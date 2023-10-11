@@ -1,9 +1,12 @@
 package com.xynos.talk.common
 
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -12,6 +15,7 @@ import java.util.Locale
 @Composable
 fun TimeText(sentTime: Long) {
     Text(
+        modifier = Modifier.padding(vertical = 3.dp),
         text = formatTimeToDisplay(sentTime),
         style = TextStyle(fontSize = 9.sp, color = Color.Gray)
     )

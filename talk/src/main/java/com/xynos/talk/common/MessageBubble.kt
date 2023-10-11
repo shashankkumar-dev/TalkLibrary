@@ -23,7 +23,7 @@ fun MessageBubble(
         val horizontalArrangement = if (isMe) Arrangement.End else Arrangement.Start
 
         Column {
-            MessageText(message.text, isMe)
+            MessageText(message.text)
             Row(
                 horizontalArrangement = horizontalArrangement,
 

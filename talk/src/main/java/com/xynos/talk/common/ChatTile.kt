@@ -1,5 +1,6 @@
 package com.xynos.talk.common
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -19,17 +20,19 @@ import com.xynos.talk.data.ChatWithMessages
 @Composable
 fun ChatTile(
     chatWithMessages: ChatWithMessages,
+    onClick: () -> Unit = {}
 ) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
+            .clickable { onClick() }
             .padding(8.dp),
         horizontalArrangement = Arrangement.Start,
         verticalAlignment = Alignment.CenterVertically
     ) {
 
         ImageBubble(imageUrl = chatWithMessages.chat.photoUrl)
-        Spacer(modifier = Modifier.width(8.dp))
+        Spacer(modifier = Modifier.width(16.dp))
         val lastMessage = chatWithMessages.messages.lastOrNull()
         Column(
             modifier = Modifier

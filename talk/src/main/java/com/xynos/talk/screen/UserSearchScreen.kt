@@ -1,9 +1,11 @@
 package com.xynos.talk.screen
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -15,6 +17,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -27,9 +30,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.xynos.talk.data.User
 import com.xynos.talk.common.ImageBubble
+import com.xynos.talk.common.SetStatusBarColor
+import com.xynos.talk.data.User
 import com.xynos.talk.navigation.Screen
+import com.xynos.talk.ui.theme.BackgroundBlue
+import com.xynos.talk.ui.theme.GrayBlue
 import com.xynos.talk.viewmodel.UserSearchViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -40,8 +46,10 @@ fun UserSearchScreen(
 ) {
     var searchQuery by remember { mutableStateOf("") }
     val users by viewModel.searchResult.collectAsState()
-
-    Column {
+    SetStatusBarColor()
+    Column(
+        modifier = Modifier.fillMaxSize().background(color = BackgroundBlue)
+    ) {
         OutlinedTextField(
             value = searchQuery,
             onValueChange = {
@@ -52,7 +60,8 @@ fun UserSearchScreen(
             leadingIcon = { Icon(Icons.Default.Search, contentDescription = null) },
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp)
+                .padding(16.dp),
+            colors = TextFieldDefaults.textFieldColors(containerColor = GrayBlue),
         )
 
         LazyColumn {
